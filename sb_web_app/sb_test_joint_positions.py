@@ -9,20 +9,27 @@ twist = TwistStamped()
 def degrees(x):
     return x * 180 / 3.141592653589793
 
+
 # main function
 
 
 def main():
-    print("Joint positions are in degrees and input needs to be in the following order: ")
+    print(
+        "Joint positions are in degrees and input needs to be in the following order: "
+    )
     print("joint1 joint2 joint3 joint4\n")
     print("Enter 'q' or 'quit' or 'exit' to quit\n")
-    pub = rospy.Publisher('/sb_cmd_state', TwistStamped, queue_size=10)
+    pub = rospy.Publisher("/sb_cmd_state", TwistStamped, queue_size=10)
     # pub = rospy.Publisher('/sb_0_cmd_state', TwistStamped, queue_size=10)
-    rospy.init_node('test_joint', anonymous=True)
+    rospy.init_node("test_joint", anonymous=True)
     rate = rospy.Rate(10)  # 10hz
     while not rospy.is_shutdown():
         in_val = input("\nEnter joint positions: ")
-        if in_val.lower() == 'q' or in_val.lower() == 'quit' or in_val.lower() == 'exit':
+        if (
+            in_val.lower() == "q"
+            or in_val.lower() == "quit"
+            or in_val.lower() == "exit"
+        ):
             break
         if len(in_val.split()) != 4:
             print("Invalid input. Please enter 4 joint positions")
@@ -38,7 +45,7 @@ def main():
         rate.sleep()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     try:
         main()
     except rospy.ROSInterruptException:

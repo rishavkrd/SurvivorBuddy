@@ -5,9 +5,11 @@ from moveit_msgs.msg import ExecuteTrajectoryActionGoal
 goalPos = []
 twist = TwistStamped()
 
+
 # helper function to convert input from rads to degrees
 def degrees(x):
     return x * 180 / 3.141592653589793
+
 
 # goal callback function
 def goalCallback(msg):
@@ -20,18 +22,21 @@ def goalCallback(msg):
     twist.twist.linear.z = goalPos[2]
     twist.twist.angular.x = -goalPos[3]
 
+
 # main function
 def main():
-    rospy.Subscriber('/execute_trajectory/goal', ExecuteTrajectoryActionGoal, goalCallback)
-    pub = rospy.Publisher('/sb_cmd_state', TwistStamped, queue_size=10)
-    rospy.init_node('send_sb', anonymous=True)
-    rate = rospy.Rate(10) # 10hz
+    rospy.Subscriber(
+        "/execute_trajectory/goal", ExecuteTrajectoryActionGoal, goalCallback
+    )
+    pub = rospy.Publisher("/sb_cmd_state", TwistStamped, queue_size=10)
+    rospy.init_node("send_sb", anonymous=True)
+    rate = rospy.Rate(10)  # 10hz
     while not rospy.is_shutdown():
         pub.publish(twist)
         rate.sleep()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     try:
         main()
     except rospy.ROSInterruptException:
